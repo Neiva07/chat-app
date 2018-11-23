@@ -1,5 +1,11 @@
 const uuidv4 = require('uuid/v4');
 
+//CreateUser
+//Creates a user.
+//@prop id {string}
+//@prop name {string}
+//@param {Object}
+//  name {string}
 const createUser = ({name = ""} = {}) => (
     {
         id:uuidv4(),
@@ -8,8 +14,15 @@ const createUser = ({name = ""} = {}) => (
 )
 
 
-
-const createMessage = ({message = "", sender = ""}, {  }) => (
+//creates a messages object.
+//@prop id {string}
+//@prop time {Date} the time in 24hr fromat i.e. 14:22
+//@prop message {string} actual string message
+//@prop sender {string} sender of the message
+//@param {object}
+//  message{string}
+//  sender{string}
+const createMessage = ({message = "", sender = ""} = {  }) => (
     {
         id:uuidv4(),
         time: getTime(new Date(Date.now())),
@@ -18,7 +31,7 @@ const createMessage = ({message = "", sender = ""}, {  }) => (
     }
 )
 
-const createChat = ({message = [], name = "Community", users = []} = {}) => (
+const createChat = ({messages = [], name = "Community", users = []} = {}) => (
     {
         id: uuidv4(),
         name,
@@ -28,7 +41,8 @@ const createChat = ({message = [], name = "Community", users = []} = {}) => (
     }
 )
 
-
+//@param date {Date}
+//@return a string represented in 24hr itme i.e. '11:30', '19:30''
 const getTime = (date) => {
     return `${get.getHours()}:${("0"+date.getMinutes()).slice(-2)}`
 }
