@@ -42,7 +42,7 @@ export default class ChatContainer extends Component {
         const typingEvent = `${TYPING}-${chat.id}` 
 
         console.log('addChat has run')
-        socket.on(typingEvent)       
+        socket.on(typingEvent, this.updateTypingInChat(chat.id))       
         socket.on(messageEvent, this.addMessageToChat(chat.id))
     }
 
@@ -65,8 +65,25 @@ export default class ChatContainer extends Component {
 
     //Update the typing of chat with id passed in.
     //@param chatIId {number}
-    updateTypingInChat = (chatId) => {
+    updateTypingInChat = (chatId) => { 
+        return ({isTyping, user}) => {
+            if(user !== this.props.user.name) {
+                const {chats} = this.state;
 
+                let newChats = chats.map(chat => {
+                    if(chat.id === chatId){
+                        if(isTyping && !chat.typingUsers.includes(user)){
+                            chat.typingUsers.push(user);
+                        }
+                        else if (!isTyping && chat.typingUsers.includes(user)){
+                            chat.typingUsers = chat.typingUsers.filter(u => u!== user);
+                        }
+                    }
+                    return chat
+                })
+                this.setState({chats:newChats})
+            }
+        }
     }
 
 
