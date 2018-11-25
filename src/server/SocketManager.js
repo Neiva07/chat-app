@@ -1,6 +1,6 @@
 const io = require('./index.js').io
 
-const {VERIFY_USER, USER_CONNECTED,COMMUNITY_CHAT, LOGOUT} = require('../Events');
+const {VERIFY_USER, USER_DISCONNECTED, USER_CONNECTED,COMMUNITY_CHAT, LOGOUT} = require('../Events');
 
 const {createUser, createMessage, createChat} = require('../Factories')
 
@@ -29,8 +29,25 @@ module.exports = function(socket) {
 
         console.log(connectedUsers)
     })
+
     socket.on(COMMUNITY_CHAT, callback => {
         callback(communityChat)
+    })
+
+
+    //User disconnects
+    socket.on('disconnect', ()=> {
+        if("user" in socket) {
+            connectedUsers = removeUser(connectedUsers, socket.user.name);
+
+            io.emit(USER_DISCONNECTED, connectedUsers)
+        }
+    })
+    //User logouts
+    socket.on(LOGOUT, ()=>{
+        connectedUsers = removeUser(connectedUsers, socket.user.name);
+        io.emit(USER_DISCONNECTED, connectedUsers);
+        console.log("Disconnected", connectedUsers);
     })
 }
 
