@@ -15,6 +15,7 @@ export default class ChatContainer extends Component {
     }
 
     componentDidMount() {
+        console.log('I mounted!')
         const {socket} = this.props;
         socket.emit(COMMUNITY_CHAT, this.resetChat);
     }
@@ -22,7 +23,8 @@ export default class ChatContainer extends Component {
     //Reset the chat back to only the chat passed in.
     //@param chat {Chat}
     resetChat = (chat) => {
-        return this.addChat(chat,true);
+        console.log('I will reset the chat')
+        return this.addChat(chat, true);
     }
 
     //Adds chat to the chat container, if reset is true removes all chats
@@ -39,6 +41,7 @@ export default class ChatContainer extends Component {
         const messageEvent = `${MESSAGE_RECIEVED}-${chat.id}`
         const typingEvent = `${TYPING}-${chat.id}` 
 
+        console.log('addChat has run')
         socket.on(typingEvent)       
         socket.on(messageEvent, this.addMessageToChat(chat.id))
     }
