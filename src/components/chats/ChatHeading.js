@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React  from 'react';
 import {FaVideo, FaUserPlus, FaEllipsisH} from 'react-icons/fa'
 
 export default function({name, numberOfUsers}) { 
