@@ -1,3 +1,3 @@
 # chat-app
 
-A simple web chat app to connect people :)
+A simple web chat app to connect people
